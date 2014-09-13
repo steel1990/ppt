@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Hybrid API</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/serif.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <style>
+            .ref {
+                font-size: 50% !important;
+                text-align: right;
+            }
+        </style>
+
+        <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+        <script>
+            if( window.location.search.match( /print-pdf/gi ) ) {
+                var link = document.createElement( 'link' );
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = 'css/print/pdf.css';
+                document.getElementsByTagName( 'head' )[0].appendChild( link );
+            }
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h1>Hybrid API</h1>
+                    <br>
+                    <p>
+                        <small>天猫前端，<a target="_blank" href="http://binbinliao.com">圆空</a></small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>历史</h2><br>
+                    <ul>
+                        <li class="fragment" data-fragment-index="1">汇编语言</li>
+                        <li class="fragment" data-fragment-index="2">高级语言</li>
+                        <li class="fragment" data-fragment-index="3">游戏开发</li>
+                        <li class="fragment" data-fragment-index="4">Hybrid API</li>
+                    </ul>
+                    <aside class="notes">
+                        <ol>
+                            <li>很久很久以前，在计算机的石器时代，第一代码农，哦不，应该是第一代计算机科学家开发了一个程序，如果他需要在其他机器上运行的话，是需要重新写一个的。</li>
+                            <li>后来有了汇编语言，就可以在使用相同指令集的计算机之间重用。</li>
+                            <li>再后来有了高级语言(C,C++,Java等)，码农们终于解放了，做到了写一份代码在不同环境下运行。</li>
+                            <li>不过天下大势，分久必合，合久比分。</li>
+                            <li>后来就有了各种操作系统(Linux, Windows, Mac OS, IOS, Android)及各种语言。</li>
+                            <li>于是大量想偷懒的码农们，就去寻找新的方法来解决不同系统及语言差异带来的开发代价。</li>
+                            <li>然后就有了为处理游戏开发的各种工具(cocos2D, Unity3D等)，还有为移动APP而生的Hybrid API，比如PhoneGap,Titanium等</li>
+                            <li>而我们今天就来探讨一下Hybrid API的传感器相关内容。</li>
+                        </ol>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Hybrid API 分类</h2>
+                    <br>
+                    <ul>
+                        <li>动作</li>
+                        <li>环境</li>
+                        <li>音频</li>
+                        <li>摄像头</li>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>首先呢，Hybrid API分为 动作，环境，音频和摄像头 四类</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>动作类</h2><br>
+                    <ul>
+                        <li>陀螺仪</li>
+                        <li>加速计</li>
+                        <li>距离传感器</li>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>那么我们先来说一下动作类，所谓动作类API，就是捕捉用户行为及动作的接口，比如手机的移动和倾斜等，这里面包括 陀螺仪，加速计和距离传感器 三种</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>陀螺仪</h2>
+                    <img src="res/tly.gif">
+                    <aside class="notes">
+                        陀螺仪是一种用来传感与维持方向的装置，它是基于角动量守恒的理论设计出来的，这里的解释有点复杂啊，其实呢我们这里所说的陀螺仪，就是用来感知设备的倾斜方向的，我们可以用它来检测出设备的朝向。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>陀螺仪</h2>
+                    <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Orientation_and_motion_data_explained"><img src="res/orientation.jpg"></a>
+                    <aside class="notes">
+                        这张图是陀螺仪反馈数据的一个直白解释，它包含alpha,beta,gamma三个值，分别代表设备绕Z轴，X轴，Y轴旋转的角度，根据这3个值我们就能准确算出设备的朝向。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>竖蛋</h2>
+                    <a target="_blank" href="http://www.tmall.com/go/act/2014/egg/my-egg.php">
+                        <img width="600" src="res/sd.png">
+                    </a>
+                    <aside class="notes">
+                        <ul>
+                            <li>竖蛋是我们线上的一个小游戏，它就是利用陀螺仪传感器来获得设备的倾斜角度，然后根据这个倾斜角度来对蛋进行左右偏移，而你呢，就需要左右倾斜你的手机，让蛋保持平衡。</li>
+                            <li>大家如果有兴趣，可以在会后打开尝试一下，这个PPT后面会发出来的。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>赛车</h2>
+                    <img width="800" src="res/orientation-car.jpg">
+                    <aside class="notes">
+                        <ol>
+                            <li>这是一个赛车游戏，相信大家应该都玩过类似的游戏吧</li>
+                            <li>利用陀螺仪能获取设备倾斜角度这一特性，我们可以用它来控制车辆的转弯，以达到接近真实驾驶的体验。</li>
+                            <li>(手机演示) 跟真的开车很像吧</li>
+                            <li>还有在一些飞行类游戏中也有用陀螺仪来操纵飞机的飞行方向</li>
+                            <li>陀螺仪现实生活中也有着广泛应用，比如结合加速计实现自平衡的独轮车等等，当然这是题外话了。</li>
+                        </ol>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>IOS桌面</h2>
+                    <img width="300" src="res/ios-desktop.jpg" alt="">
+                    <aside class="notes">
+                        <p>这个呢是ISO的桌面，它的桌面图片会跟着设备左右倾斜而移动，这种细微的处理，可以带来很好的用户体验。</p>
+                        <p>说完了陀螺仪，我们来说一下另一个很重要的动作传感器--加速计</p>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>加速计</h2>
+                    <img width="400" src="res/dxyl.png" alt="">
+                    <aside class="notes">
+                        <ul>
+                            <li>加速计是感应设备的在X,Y,Z三个方向上的加速度。</li>
+                            <li>大家都清楚加速度是物体速度的变化率，我们根据这个值就可以知道设备的运动方向</li>
+                            <li>例如：现在这台手机是不动的，当我们横向移动它的时候，它就会有一个横向的加速度，根据这个加速度就可以知道设备的运动方向了。</li>
+                            <li>加速计反馈的数据有两个值，一个是包含重力加速度的，另一个是去除重力加速度的，而浏览器提供的接口，暂时是不返回去除重力加速度的。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>摇一摇</h2>
+                    <img width="300" src="res/weixin.png" alt="">
+                    <aside class="notes">
+                        <ul>
+                            <li>加速计最广泛的应用应该就是摇一摇了吧，这是微信摇一摇功能的界面，想必大家应该都用过吧。</li>
+                            <li>一般的做法是在一定时间内，加速度的变化超过一个临界值，就认为它触发了摇一摇</li>
+                            <li>当然这个临界值一般是可以配置的</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>天猫技术部年会</h2>
+                    <div>
+                        <img src="res/nianhui1.png" alt="" width="300">
+                        <img src="res/nianhui2.png" alt="" width="300">
+                        <img src="res/nianhui3.png" alt="" width="300">
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>这是去年天猫技术部年会的一个盛况，大家在拿着手机在干什么呢？</li>
+                            <li>原来大家在赛跑，通过摇晃手机或对着手机呐喊，然后就会有一个小猫在大屏幕中跑，而跑的速度就是根据设备摇动的剧烈程度，或者声音强度来转换的。</li>
+                            <li>最后跑在前面的同学，就可以拿到大奖了，这种抽奖方式可以让大家参与进去，然后感受到这个过程，趣味性非常强，比起一般的随机抽奖，bigger than bigger，你懂的。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>网球</h2>
+                    <img width="90%" src="res/wangqiu.png" alt="">
+                    <aside class="notes">
+                        <ul>
+                            <li>根据加速计和陀螺仪完全可以计算出设备的运动轨迹，我们组内就有同学在做设备动作识别方面的研究。</li>
+                            <li>例如这个网球游戏就是一个很好的例子，它根据加速计和陀螺仪来计算手机挥动的方向及速度。</li>
+                            <li>来模拟真实打网球的体验</li>
+                            <li>说到这个呢，我又想起来另一个类似的应用，一个保龄球的游戏，它也是利用加速计和陀螺仪来捕获用户的动作，达到跟现实中玩保龄球类似的体验，然后呢有一哥们，在地铁里玩这个游戏，玩的时候手机没拿稳，手机就这样扔出车厢了，这个时候地铁门又刚好关上了，这哥们也就只好干瞪眼了，所以呢不作就不会死。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>距离传感器</h2>
+                    <div>
+                        <img width="300" src="res/dis1.png" alt="">
+                        <img width="300" src="res/dis2.png" alt="">
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>下面来说一个用的比较少的传感器</li>
+                            <li>距离传感器就是用来检测物体与设备的距离，一般是有物体靠近和远离设备这两个事件</li>
+                            <li>用的最多的地方就是，打电话的过程中，当手机靠近脸的时候就会锁屏，以防止误操作。</li>
+                            <li>记得我们原来做过一个化妆品的案例，说是可以检测皮肤的好坏，其实呢它就是用距离传感器来做的，当你的脸靠近的时候，会有一个皮肤检测的动画，然后提示说你的皮肤不好，需要用某某护肤品来改善皮肤，最后会有这个护肤品的展示，在这里又会用到前面的陀螺仪，当你左右倾斜手机的时候，护肤品的瓶子也会跟着挪动，体验还是不错的。</li>
+                            <li>呃。。，动作相关的传感器基本上就是这些了，下面我们看看环境相关的一些传感器。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>环境相关</h2>
+                    <ul>
+                        <li>GPS</li>
+                        <li>磁力计</li>
+                        <li>光线传感器</li>
+                        <li>气压传感器</li>
+                        <li>气温传感器</li>
+                        <li>湿度传感器</li>
+                    </ul>
+                    <aside class="notes">
+                        它主要包括 GPS，磁力计，光线，气压，气温和湿度这几个。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>GPS</h2>
+                    <div>
+                        <img width="300" src="res/gps1.png" alt="">
+                        <img width="300" src="res/gps2.png" alt="">
+                    </div>
+                    <aside class="notes">
+                        <li>GPS呢众所周知，就是用来获取你的地理位置，它是LBS(Location-Based Service)类应用的核心，比如地图，团购和O2O等。</li>
+                        <li>作为一个路痴的我，必须要说一下导航，而说到导航呢，那就必须提一下磁力计了，因为导航就是基于GPS和磁力计的，GPS用于定位，磁力计用于指明方向。</li>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>指南针</h2>
+                    <img width="300" src="res/compass.png" alt="">
+                    <aside class="notes">
+                        <ul>
+                            <li>磁力计的主要应用就是指南针了，它可以告诉我们北在哪边，有了它就妈妈再也不用担心我找不到北了！！</li>
+                            <li>下面我们说一下光线传感器</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>智能感光</h2>
+                    <div>
+                        <img width="300" src="res/light1.png" alt="">
+                        <img width="300" src="res/light2.png" alt="">
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>光线传感器就是用来获取设备所处环境下的光强度</li>
+                            <li>最广泛的应用就是自动调节屏幕的亮度，例如在光线弱的环境下就会降低屏幕亮度以保护眼睛，而在光线强的环境下又会增加屏幕亮度，让你可以看清屏幕上的内容。</li>
+                            <li>这个截图是我们做的一个案例，一开始树上是只有一个橙子的，当你把手机放到光线强的地方时，树上就会长满橙子。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <img src="res/light3.png" alt="">
+                    <aside class="notes">这个时候你可以用手指来划破橙子，然后就会有很多橙汁爆出了。这种体验是真的能吸引用户再玩一次的，而广告要的就是这种效果。</aside>
+                </section>
+
+                <section>
+                    <h2>CSS light-level</h2>
+                    <img src="res/css4.png" alt=""/>
+                    <div class="ref">来源：
+                        <a target="_blank" href="http://dev.w3.org/csswg/mediaqueries4/#mf-environment">CSS Media Queries Level 4: light-level</a>
+                    </div>
+
+                    <aside class="notes">
+                        CSS4提出了一个新的选择器，就是光强度选择器，可以针对不同光线强度的环境设置不同的样式，当然现在浏览器都是还不支持的，不过我们还是可以利用前面提到的光线传感器来实现相同的功能。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>其他</h2><br>
+                    <ul>
+                        <li>气压传感器 - 海拔</li>
+                        <li>温度</li>
+                        <li>湿度</li>
+                    </ul>
+                    <aside class="notes">
+                        <ul>
+                            <li>关于其他的这几个环境传感器，我们就不做详细介绍了，因为应用的实在太少了。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>音频</h2><br>
+                    <ul>
+                        <li>麦克风</li>
+                        <li>扬声器</li>
+                    </ul>
+                    <aside class="notes">接下来就是音频相关，包括麦克风和扬声器</aside>
+                </section>
+
+                <section>
+                    <h2>呐喊</h2>
+                    <img width="300" src="res/nianhui-phone.png" alt="">
+                    <aside class="notes">
+                        这是前面天猫技术部年会上的那个应用，它除了摇晃手机外，还可以对手机进行呐喊，将声音强度转换成猫跑的速度进行比赛，前面说过就不多说了。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>声波支付</h2>
+                    <img width="500" src="res/alipay.jpg" alt="">
+                    <div class="ref">来源：支付宝</div>
+                    <aside class="notes">
+                        在场的各位应该都用过支付宝吧，支付宝的当面付功能就是基于音频的，它将数据转换成声波，一个设备利用扬声器发出声波，另一个利用麦克风来接收声波，以达到数据的传输，最后进行支付。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>语言识别</h2>
+                    <img width="500" src="res/siri.png" alt="">
+                    <div class="ref">来源：Siri</div>
+                    <aside class="notes">
+                        语音识别现在已经有很广泛的应用了，就不多说了。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>摄像头</h2><br/>
+                    <ul>
+                        <li>拍照</li>
+                        <li>视频</li>
+                    </ul>
+                    <aside class="notes">
+                        下面是摄像头相关的，主要是拍照和视频。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2><a target="_blank" href="http://www.tmall.com/go/market/main/zhubao.php">试戴</a></h2>
+                    <div>
+                        <img src="res/try1.png" alt="" width="280">
+                        <img src="res/try2.png" alt="" width="280">
+                        <img src="res/try3.png" alt="" width="280">
+                    </div>
+                    <div class="ref">来源：<a target="_blank" href="https://github.com/tmallfe/tmallfe.github.io/issues/4">天猫珠宝试戴</a></div>
+                    <aside class="notes">
+                        <ul>
+                            <li>这是我们线上珠宝频道的一个试戴应用，可以用天猫客户端来体验戒指戴在手上是怎样的感觉，当然也可以用chrome来体验，这样就可以避免买到一些看上去好看，实际上跟你不搭的东西。</li>
+                            <li>这个可以演示一下，有人愿意来尝试一下么？</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>试戴的改进</h2>
+                    <!-- <ul>
+                        <li>更多类型：项链、眼镜、耳环、手镯...</li>
+                        <li>相关推荐：相似图搜索</li>
+                        <li>模板匹配：图像识别</li>
+                    </ul> -->
+                    <aside class="notes">
+                        <ul>
+                            <li>刚才演示的这个珠宝试戴功能，如大家所看到的，它还有许多需要改进的地方。</li>
+                            <li>首先是把你的手放到这个虚线框区域很难操作有木有！</li>
+                            <li>然后呢，放上去后，戒指还需要调整位置和大小，太麻烦了。</li>
+                            <li>其实我们现在正在做模式识别相关的研究，以达到当你的手放过来后就能自动在你的手指上叠加戒指</li>
+                            <li>而你的手移动的时候，它也会跟着移动，并调整大小</li>
+                            <li>我说的这些当然不是天方夜谭，我们来看一下一个实时图像识别的示例。</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2><a target="_blank" href="http://mtschirs.github.com/js-objectdetect/examples/example_gesture_input.htm">实时图像识别</a></h2>
+                    <a target="_blank" href="http://mtschirs.github.com/js-objectdetect/examples/example_sunglasses.htm">
+                        <img style="border:none;" width="600" src="res/glass.gif" alt="">
+                    </a>
+                    <aside class="notes">
+                        <ul>
+                            <li>大家看到这个示例后，应该不会觉得我前面是天方夜谭了吧。</li>
+                            <li>而这个其实完全可以用到我们的眼镜试戴上，体验应该会非常好，我们现在正在推进这个事情，相信在不久的将来，大家就能在线上看到这个应用了</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>增强现实</h2>
+                    <img width="600" src="res/yijia.jpg" alt="">
+                    <aside class="notes">
+                        这个宜家的一个应用，你可以把沙发放到房间里面，看看搭配效果，跟前面的试戴是类似的。
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>增强现实</h2>
+                    <img width="600" src="res/ar2.jpg" alt="">
+                    <aside class="notes">
+                        <p>这是一个比较复杂的增强现实示例，它是利用摄像头，GPS，陀螺仪，指南针等等接口来实现的一个比较复杂的应用。</p>
+                        <p>它将商家信息的标签贴在你面前的建筑上，这样你就可以清楚的看到前面有什么，每个店又是什么样的，并可以看到评分信息，这在O2O类应用上的体验是非常好的。</p>
+                        <p>而Google Glass就是一个非常典型的增强现实的应用。</p>
+                        <p>传感器基本上就说到这里了。</p>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>W3C Device API</h2>
+                    <img width="700" class="img11" src="res/w3c.png" alt=""/>
+                    <div class="ref">来源：<a target="_blank" href="http://www.w3.org/2009/dap/">W3C Device APIs Working Group</a></div>
+                    <aside class="notes">
+                        这张图是W3C的一个设备接口规范列表，部分浏览器已经实现了其中的部分接口，这样在浏览器里面就可以使用前面说到的一些特性，这是一件非常赞的事情，我们就希望这个能快点推进吧。
+                    </aside>
+                </section>
+
+                <section>
+                    <img src="res/hybrid.png" alt="">
+                    <aside class="notes">
+                        <ul>
+                            <li>大家都知道阿里集团有非常多的客户端，比如淘宝，天猫，支付宝等等，针对这些客户端，我们要调用不同的接口来使用相同的传感器，而为了调用这些接口，我们需要看各个客户端的文档，这简直就是浪费生命。</li>
+                            <li>这是我们针对多个应用，多平台进行的一个工作，将其中的不同磨平。我们做了一个接口层来封装所有应用的接口，并提供一个统一的Hybrid API，当然我们也在推进native使用同一套代码，这样处理代价就会小很多。</li>
+                            <li>我们已经上线了第一个版本，虽然里面处理的API不多，但是迈出了第一步，后面的路就好走了。</li>
+                            <li>我们的目标是：没有蛀牙！呀！错了，应该是快乐的写代码，不再为平台兼容性而费神。</li>
+                            <li>让一份代码可以在 天猫、淘宝、支付宝等等的客户端 中运行</li>
+                            <li>并对部分复杂传感器的功能进行封装，以降低使用难度</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>联系我</h2><br>
+                    <p>LBBSTEEL@Gmail.com</p>
+                    <aside class="notes">
+                        当然，我们需要做的，需要改进的东西实在是太多了，包括Hybrid API的统一大业，利用模式识别来提升购物试戴和试穿体验，还有利用丰富的Hybrid API开发各种引人入胜的游戏，而我们的人力物力能力有限，我们不能做到尽善尽美，如果你对以上内容感兴趣，请一定联系我。谢谢！
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Q&amp;A</h2>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
